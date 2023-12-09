@@ -15,8 +15,7 @@ export type PricePeriod = { begin: Date; end: Date; price: number };
 export type PricePlotData = { x: string[]; y: number[] };
 
 function path(endpoint: string): string {
-    // return `http://s2.zloserver.com:34010/api/v1/${endpoint}`;
-    return `https://khromdev.ru/api/v1/${endpoint}`;
+    return `https://khromdev.ru/api/v1/${endpoint}/`;
 }
 
 export async function shares(): Promise<ShareInfo[]> {
