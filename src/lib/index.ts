@@ -15,11 +15,11 @@ export type PricePeriod = { begin: Date; end: Date; price: number };
 export type PricePlotData = { x: string[]; y: number[] };
 
 function path(endpoint: string): string {
-    return `https://khromdev.ru/api/v1/${endpoint}/`;
+    return `https://khromdev.ru/api/v1/${endpoint}`;
 }
 
 export async function shares(): Promise<ShareInfo[]> {
-    let data = await fetch(path("tickers"), { method: "GET" });
+    let data = await fetch(path("tickers/"), { method: "GET" });
     let json: any[] = await data.json();
     let res: ShareInfo[] = json.map(o => {
         let id: string = o.ticker;
@@ -36,7 +36,7 @@ export async function shares(): Promise<ShareInfo[]> {
 }
 
 export async function relevant_shares(id: string): Promise<(ShareInfo & { correlation: number })[]> {
-    let data = await fetch(path(`tickers/${id}/relevant`), { method: "GET" });
+    let data = await fetch(path(`tickers/${id}/relevant/`), { method: "GET" });
     let json: any[] = await data.json();
     let res = json.map(o => {
         let id: string = o.ticker;
