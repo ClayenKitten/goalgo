@@ -5,7 +5,7 @@
 
     export let data: Writable<Data[]>;
 
-    export let hover: { x: string; y: string } | undefined;
+    export let hover: { x: string; y: string } | undefined = undefined;
 
     let plot: PlotlyHTMLElement;
     let graph: HTMLElement;

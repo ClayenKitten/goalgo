@@ -1,11 +1,13 @@
 <script lang="ts">
-    import { shares as get_shares, type ShareInfo } from "$lib";
+    import type { ShareInfo } from "$lib";
     import InfoButton from "$lib/InfoButton.svelte";
     import OptionList from "$lib/OptionList.svelte";
-    import { onMount } from "svelte";
     import Search from "./Search.svelte";
     import Share from "./Share.svelte";
     import Select from "$lib/Select.svelte";
+
+    export let shares: ShareInfo[];
+    export let selected: ShareInfo | undefined;
 
     /* Search */
     let search = "";
@@ -52,13 +54,7 @@
             sorter_cmp = (a, b) => a.price - b.price;
         }
     }
-
-    let _shares = new Array<ShareInfo>();
-    $: shares = _shares.filter(category_filter).filter(search_filter).sort(sorter_cmp);
-    onMount(async () => {
-        get_shares().then(s => (_shares = s));
-    });
-    export let selected: ShareInfo | undefined;
+    $: filtered_shares = shares.filter(category_filter).filter(search_filter).sort(sorter_cmp);
 </script>
 
 <section>
@@ -80,7 +76,7 @@
             <OptionList options={filters} bind:selected={filter} />
             <Select options={sorters} bind:value={sorter} />
         </menu>
-        {#each shares as share (share.id)}
+        {#each filtered_shares as share (share.id)}
             <Share
                 {share}
                 is_selected={share == selected}

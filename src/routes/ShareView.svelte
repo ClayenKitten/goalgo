@@ -1,12 +1,5 @@
 <script lang="ts">
-    import {
-        shares as get_shares,
-        price_history,
-        Timelines,
-        type ShareInfo,
-        type TimelineOption,
-        relevant_shares
-    } from "$lib";
+    import { price_history, Timelines, type ShareInfo, relevant_shares } from "$lib";
     import InfoButton from "$lib/InfoButton.svelte";
     import OptionList from "$lib/OptionList.svelte";
     import { formatDate } from "$lib/util";
@@ -30,17 +23,22 @@
     $: hover_date = hover ? new Date(hover.x) : new Date(2023, 1, 4);
     /* Correlations */
     const correlation_options = [
-        { id: "low", name: "Низкая корреляция" },
         { id: "high", name: "Высокая корреляция" },
+        { id: "low", name: "Низкая корреляция" },
         { id: "portfolio", name: "Из портфеля" }
     ];
     let correlation_option = correlation_options[0];
 
     let _correlations = new Array<ShareInfo & { correlation: number }>();
     $: relevant_shares(share.id).then(s => (_correlations = s));
-    $: correlations = _correlations.filter(
-        s => correlation_option.id != "portfolio" || $portfolio.has(s.id)
-    ).sort((a, b) => b.correlation - a.correlation);
+    $: correlations = _correlations
+        .filter(s => correlation_option.id != "portfolio" || $portfolio.has(s.id))
+        .sort((a, b) =>
+            correlation_option.id == "low"
+                ? a.correlation - b.correlation
+                : b.correlation - a.correlation
+        )
+        .slice(0, 40);
 
     onMount(async () => {
         _correlations = await relevant_shares(share.id);
@@ -65,7 +63,7 @@
     <section class="attributes">
         <article class="sector">
             <span>Сектор</span>
-            <span class="name">Энергетика</span>
+            <span class="name">{share.sector}</span>
         </article>
         <article class="price">
             <span class="big-text">{share.price} ₽</span>
@@ -80,28 +78,30 @@
             </span>
         </article>
     </section>
-    <section class="graph">
-        <OptionList options={Timelines} bind:selected={timeline} />
-        <hr />
-        <Plot data={plot_data} bind:hover />
-        <hr />
-        <div class="price">
-            <span class="big-text">{hover_price} ₽</span>
-            <span>{formatDate(hover_date)}</span>
-        </div>
-    </section>
-    <section class="correlations">
-        <header>
-            <h3>Перечень корреляций</h3>
-            <InfoButton></InfoButton>
-        </header>
-        <OptionList options={correlation_options} bind:selected={correlation_option} />
-        <div class="correlations-list">
-            {#each correlations as entry}
-                <Share share={entry} prefix={entry.correlation.toFixed(2)} />
-            {/each}
-        </div>
-    </section>
+    <div class="scroll">
+        <section class="graph">
+            <OptionList options={Timelines} bind:selected={timeline} />
+            <hr />
+            <Plot data={plot_data} bind:hover />
+            <hr />
+            <div class="price">
+                <span class="big-text">{hover_price} ₽</span>
+                <span>{formatDate(hover_date)}</span>
+            </div>
+        </section>
+        <section class="correlations">
+            <header>
+                <h3>Перечень корреляций</h3>
+                <InfoButton></InfoButton>
+            </header>
+            <OptionList options={correlation_options} bind:selected={correlation_option} />
+            <div class="correlations-list">
+                {#each correlations as entry}
+                    <Share share={entry} prefix={entry.correlation.toFixed(2)} />
+                {/each}
+            </div>
+        </section>
+    </div>
 </section>
 
 <style lang="scss">
@@ -145,7 +145,13 @@
                 }
             }
             > .price {
+                display: flex;
+                justify-content: center;
                 .trend {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    white-space: nowrap;
                     > span {
                         font-size: 14px;
                         &.raising {
@@ -158,7 +164,17 @@
                 }
             }
         }
-        > .graph {
+        .scroll {
+            flex: 1 0 0;
+            overflow-y: scroll;
+            padding-right: 16px;
+            margin-right: -16px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .graph {
             display: flex;
             flex-direction: column;
             justify-content: stretch;
@@ -176,7 +192,7 @@
                 margin: 8px 0;
             }
         }
-        > .correlations {
+        .correlations {
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -191,10 +207,7 @@
                 display: flex;
                 flex-direction: column;
                 gap: 20px;
-                overflow-y: scroll;
 
-                padding-right: 16px;
-                margin-right: -16px;
                 scrollbar-color: var(--text) transparent;
                 margin-top: 16px;
             }

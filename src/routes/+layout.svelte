@@ -52,6 +52,7 @@
                 flex: 1;
                 display: flex;
                 justify-content: start;
+                align-items: center;
                 gap: 32px;
                 padding: 20px 32px;
                 border-radius: 12px;

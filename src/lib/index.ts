@@ -28,14 +28,16 @@ export async function shares(): Promise<ShareInfo[]> {
             name: o.name,
             price: o.price,
             raising: o.is_positive_forecast,
-            sector: "Финансы", // TODO
+            sector: o.sphere,
             premium: id.length == 5 && id.endsWith("P")
         };
     });
     return res;
 }
 
-export async function relevant_shares(id: string): Promise<(ShareInfo & { correlation: number })[]> {
+export async function relevant_shares(
+    id: string
+): Promise<(ShareInfo & { correlation: number })[]> {
     let data = await fetch(path(`tickers/${id}/relevant/`), { method: "GET" });
     let json: any[] = await data.json();
     let res = json.map(o => {
@@ -121,3 +123,5 @@ export const Timelines: { id: TimelineOption; name: string }[] = [
     { id: "year", name: "Год" },
     { id: "all-time", name: "Всё время" }
 ];
+
+export type File = { name: string; content: string };

@@ -34,11 +34,11 @@
             <span class="big-text">{share.price} ₽</span>
             <span class="trend">
                 {#if share.raising}
-                    <img src="/icons/trend_up.svg" alt="" />
                     <span class="raising">Будет расти</span>
+                    <img src="/icons/trend_up.svg" alt="" />
                 {:else}
-                    <img src="/icons/trend_down.svg" alt="" />
                     <span>Будет падать</span>
+                    <img src="/icons/trend_down.svg" alt="" />
                 {/if}
             </span>
         </div>
@@ -81,6 +81,7 @@
                     flex: 1;
                     font-size: 20px;
                     text-align: start;
+                    word-break: break-all;
                 }
                 > h3 {
                     display: flex;
