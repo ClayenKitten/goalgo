@@ -27,7 +27,7 @@
                     {:else if entry.kind == "image"}
                         <img src={entry.src} alt="" />
                     {:else if entry.kind == "code"}
-                        <p style:font-family="monospace">{entry.content}</p>
+                        <pre>{entry.content}</pre>
                     {/if}
                 {/each}
             </section>
@@ -74,6 +74,10 @@
                     display: flex;
                     flex-direction: column;
                     gap: 20px;
+                    > pre {
+                        display: block;
+                        color: var(--text);
+                    }
                 }
             }
         }

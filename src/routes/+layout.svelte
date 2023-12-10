@@ -5,7 +5,7 @@
 
     let entries = [
         { href: "/", title: "Главная" },
-        { href: "/guide", title: "Входим в алготрединг" },
+        { href: "/articles/guide", title: "Входим в алготрейдинг" },
         { href: "/simulator", title: "Протестировать свой алгоритм" },
         { href: "/articles", title: "Статьи" }
     ];

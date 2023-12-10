@@ -8,6 +8,31 @@ export type ArticleEntry =
 
 export const Articles = [
     {
+        id: "guide",
+        title: "Входим в алготрейдинг",
+        description: "Наш гайд о том, как сделать первые шаги в алготрейдинге!",
+        source: { name: "Мы!", href: "https://khromdev.ru/" },
+        content: [
+            { kind: "header", content: "Шаг 1: Создание Стратегии"},
+            { kind: "paragraph", content: "1. Создайте новый файл стратегии: Создайте Python файл (например, `my_strategy.py`)." },
+            { kind: "paragraph", content: "2. Наследуйтесь от класса IStrategy: Это базовый класс для создания стратегий в Freqtrade." },
+            { kind: "code", content: `from freqtrade.strategy.interface import IStrategy\nclass MyStrategy(IStrategy):\n  pass` },
+            { kind: "header", content: "Шаг 2: Определение Параметров"},
+            { kind: "paragraph", content: "1. Установите минимальные параметры: Определите необходимые параметры, такие как minimal_roi, stoploss, и trailing_stop." },
+            { kind: "paragraph", content: "2. Определите индикаторы: Используйте библиотеки, такие как TA-Lib, для создания технических индикаторов." },
+            { kind: "code", content: `def populate_indicators(self, dataframe: DataFrame) -> DataFrame:\n  # пример: SMA (простая скользящая средняя)\n  dataframe['sma'] = ta.SMA(dataframe, timeperiod=20)\n  return dataframe` },
+            { kind: "header", content: "Шаг 3: Торговые Сигналы"},
+            { kind: "paragraph", content: "1. Определите условия для входа: Укажите, когда ваша стратегия должна входить в позицию." },
+            { kind: "code", content: "def populate_buy_trend(self, dataframe: DataFrame, metadata: dict) -> DataFrame:\n  # Пример условия на покупку\n  dataframe.loc[((dataframe['sma'] > dataframe['close'])), 'buy'] = 1\n  return dataframe" },
+            { kind: "paragraph", content: "2. Определите условия для выхода: Аналогично укажите, когда стратегия должна выходить из позиции." },
+            { kind: "header", content: "Шаг 4: Оптимизация и Тонкая Настройка"},
+            { kind: "paragraph", content: "1. Оптимизируйте параметры: Используйте гипероптимизацию для настройки параметров стратегии." },
+            { kind: "paragraph", content: "2. Повторяйте тестирование и настройку: Повторяйте тесты и настройки, пока не достигнете удовлетворительных результатов." },
+            { kind: "header", content: "Шаг 5: Запуск на Реальном Рынке"},
+            { kind: "paragraph", content: "Запустите стратегию в реальных торговых условиях: Используйте команду freqtrade trade --strategy MyStrategy для запуска стратегии в реальных условиях рынка." }
+        ],
+    },
+    {
         id: "51",
         title: "Python для алготрейдинга",
         description:

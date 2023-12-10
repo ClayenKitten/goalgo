@@ -1,12 +1,6 @@
 <script lang="ts">
     export let percent: number = 50;
-    $: style = `background: linear-gradient(
-        to right,
-        var(--good-color),
-        var(--good-color) ${percent},
-        var(--block-background) ${percent},
-        var(--block-background),
-    );`;
+    $: style = `background: linear-gradient(to right, var(--good-color), var(--good-color) ${percent}%, var(--block-background) ${percent}%, var(--block-background));`;
 </script>
 
 <div {style} />
