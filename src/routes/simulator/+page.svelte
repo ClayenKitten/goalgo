@@ -409,10 +409,10 @@ class SampleStrategy(IStrategy):
             ),
             'exit_short'] = 1
 
-        return dataframe`, progress: 0.15 },
-        { name: "Sample2.py", content: 'while (true):\n  print("5")', progress: 0.5 },
-        { name: "Sample3.py", content: 'print("Hello sample!")', progress: 0.65 },
-        { name: "Sample4.py", content: 'print("Hello sample!")', progress: 0.5 }
+        return dataframe`, progress: 0 },
+        { name: "Sample2.py", content: 'while (true):\n  print("5")', progress: 0 },
+        { name: "Sample3.py", content: 'print("Hello sample!")', progress: 0 },
+        { name: "Sample4.py", content: 'print("Hello sample!")', progress: 0 }
     ];
     let file = files[0];
     $: if (!files.includes(file)) file = files[0];
